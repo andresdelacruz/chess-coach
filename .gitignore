@@ -1,0 +1,13 @@
+# datos personales de cada jugador: nunca al repo
+/.venv/
+/data/
+/config.json
+/.env
+/estado/
+/entregables/
+__pycache__/
+.pytest_cache/
+
+*.tgz
+.DS_Store
+*.zip

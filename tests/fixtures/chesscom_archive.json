@@ -1,0 +1,15 @@
+{"games": [
+ {"url": "https://www.chess.com/game/live/1", "uuid": "cc-1", "end_time": 1763400000, "rated": true, "time_class": "blitz",
+  "time_control": "180+2", "rules": "chess", "eco": "https://www.chess.com/openings/Italian-Game-Blackburne-Shilling-Gambit-4.Nxe5",
+  "accuracies": {"white": 40.1, "black": 90.2},
+  "white": {"rating": 1200, "result": "checkmated", "username": "Tester"},
+  "black": {"rating": 1250, "result": "win", "username": "rival1"},
+  "pgn": "[Event \"Live Chess\"]\n[White \"Tester\"]\n[Black \"rival1\"]\n[Result \"0-1\"]\n[ECO \"C50\"]\n[TimeControl \"180+2\"]\n\n1. e4 {[%clk 0:03:01]} e5 {[%clk 0:03:01]} 2. Nf3 {[%clk 0:02:59]} Nc6 {[%clk 0:02:58]} 3. Bc4 {[%clk 0:02:55]} Nd4 {[%clk 0:02:50]} 4. Nxe5 {[%clk 0:02:40]} Qg5 {[%clk 0:02:45]} 5. Nxf7 {[%clk 0:00:09]} Qxg2 {[%clk 0:02:40]} 6. Rf1 {[%clk 0:00:08]} Qxe4+ {[%clk 0:02:35]} 7. Be2 {[%clk 0:00:07]} Nf3# {[%clk 0:02:30]} 0-1"},
+ {"url": "https://www.chess.com/game/live/2", "uuid": "cc-2", "end_time": 1763410000, "rated": true, "time_class": "blitz",
+  "time_control": "180+2", "rules": "chess960",
+  "white": {"rating": 1200, "result": "win", "username": "Tester"}, "black": {"rating": 1200, "result": "resigned", "username": "x"}, "pgn": ""},
+ {"url": "https://www.chess.com/game/live/3", "uuid": "cc-3", "end_time": 1763420000, "rated": true, "time_class": "rapid",
+  "time_control": "600", "rules": "chess",
+  "white": {"rating": 1300, "result": "agreed", "username": "otro"}, "black": {"rating": 1210, "result": "agreed", "username": "tester"},
+  "pgn": "[White \"otro\"]\n[Black \"tester\"]\n[Result \"1/2-1/2\"]\n\n1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 1/2-1/2"}
+]}

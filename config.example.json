@@ -1,0 +1,27 @@
+{
+  "accounts": {
+    "chesscom": "tu_usuario_chesscom",
+    "lichess": "tu_usuario_lichess"
+  },
+  "contact_email": "tu@email.com",
+  "coach_style": "profe",
+  "repertoire": {
+    "white": [
+      "Catalana"
+    ],
+    "vs_e4": [
+      "Caro-Kann"
+    ],
+    "vs_d4": [
+      "Nimzo-India"
+    ],
+    "vs_otros": []
+  },
+  "stockfish_path": "",
+  "analysis": {
+    "seconds_per_move": 0.15,
+    "threads": 4,
+    "hash_mb": 256,
+    "max_games_per_run": 25
+  }
+}

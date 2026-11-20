@@ -1,0 +1,56 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./coach:*)",
+      "Read(knowledge/**)",
+      "Edit(knowledge/**)",
+      "Write(knowledge/**)",
+      "Read(estado/**)",
+      "Edit(estado/**)",
+      "Write(estado/**)",
+      "Read(entregables/**)",
+      "Write(entregables/**)",
+      "Edit(entregables/**)",
+      "Read(coaches/**)",
+      "Read(contexto/**)",
+      "Read(config.json)"
+    ],
+    "ask": [
+      "Bash(./coach repertoire set:*)",
+      "Bash(./coach style set:*)",
+      "Edit(coaches/**)",
+      "Write(coaches/**)",
+      "Edit(config.json)",
+      "Write(config.json)"
+    ],
+    "deny": [
+      "Read(data/**)",
+      "Read(.env)",
+      "Bash(cat .env:*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/coach session-brief",
+            "timeout": 45
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/coach hook-stop",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

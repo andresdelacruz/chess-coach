@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chess Coach</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>♞</text></svg>">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="app">
+  <!-- ───── Sidebar ───── -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">♞</div>
+      <div><div class="brand-name">Chess Coach</div><div class="brand-sub" id="brandSub">—</div></div>
+    </div>
+    <button class="btn-new" id="btnNew">+ Nueva conversación</button>
+    <button class="btn-train" id="btnTrain">♟ Entrenar jugada a jugada</button>
+    <button class="btn-train" id="btnTree">🌳 Mi árbol de aperturas</button>
+    <div class="side-label">Conversaciones</div>
+    <nav id="convList" class="conv-list"></nav>
+    <div class="side-foot">
+      <div class="me"><div class="avatar" id="meAvatar">♙</div>
+        <div><div class="me-name" id="meName">Tu coach</div><div class="me-sub" id="meStyle">—</div></div></div>
+      <div class="engine-state" id="engineState">—</div>
+      <button class="btn-gear" id="btnGear">⚙ Configuración</button>
+    </div>
+  </aside>
+
+  <!-- ───── Centro ───── -->
+  <main class="main">
+    <header class="topbar">
+      <div class="title" id="title">Nueva conversación</div>
+      <div class="top-controls">
+        <label>Modelo <select id="selModel"></select></label>
+        <label>Estilo <select id="selStyle"></select></label>
+        <span class="pill" id="pillEngine">…</span>
+      </div>
+    </header>
+
+    <!-- chat + tablero (jugada a jugada vive dentro del chat) -->
+    <section id="viewChat" class="view">
+      <div class="chat-body">
+        <div class="messages" id="messages"></div>
+        <aside class="dock hidden" id="dock">
+          <div class="dock-tabs"><button data-m="train" id="tabTrain">♟ Entrenar</button><button data-m="tree" id="tabTree">🌳 Árbol</button><button class="x" id="dockClose" title="Cerrar">✕</button></div>
+          <div class="tree-bar hidden" id="treeBar">
+            <div class="seg" id="tColor"><button data-v="white" class="on">Blancas</button><button data-v="black">Negras</button></div>
+            <select id="tTc"><option value="">Todos los ritmos</option><option value="bullet">Bullet</option><option value="blitz">Blitz</option><option value="rapid">Rapid</option><option value="daily">Daily</option></select>
+            <select id="tDays"><option value="">Todo</option><option value="365">1 año</option><option value="90">90 días</option><option value="30">30 días</option></select>
+          </div>
+          <div class="board-head" id="boardHead">—</div>
+          <div class="board" id="board"></div>
+          <div class="board-foot" id="boardFoot"></div>
+          <div class="dock-actions" id="trainActions">
+            <button id="btnHint">💡 Pista</button>
+            <button id="btnEnd" class="ghost">⏹ Terminar</button>
+          </div>
+          <div class="dock-actions hidden" id="treeActions">
+            <button id="tBack">← Atrás</button><button id="tRoot">⟲ Inicio</button><button id="tTrain">♟ Entrenar desde aquí</button>
+          </div>
+          <div class="moves" id="trainMoves"></div>
+          <div id="treePanel" class="hidden"></div>
+          <p class="fair">⚠️ Solo práctica: nunca en una partida en vivo.</p>
+        </aside>
+      </div>
+      <div class="composer-wrap">
+        <div class="composer">
+          <textarea id="input" rows="2" placeholder="Escribe al coach, «entrenemos la catalana», o tu jugada (ej. Nf3)"></textarea>
+          <div class="composer-bar">
+            <div class="chips" id="quick"></div>
+            <button class="send" id="btnSend">Enviar ↑</button>
+          </div>
+        </div>
+        <div class="foot-note" id="footNote">Jugadas en el tablero: gratis · preguntas al coach: usan tu Claude</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ───── Contexto del harness ───── -->
+  <aside class="context">
+    <div class="ctx-title">Contexto del harness</div>
+    <div class="card">
+      <div class="card-h"><span>Conexiones</span><button class="mini" id="btnSync">Actualizar</button></div>
+      <div id="conns"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><span>Partidas recientes</span><span class="tag" id="pending"></span></div>
+      <div id="games"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><span>Repertorio declarado</span><button class="mini" id="btnRepEdit">Editar</button></div>
+      <div id="rep"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><span>Skills del coach</span><span class="tag" id="skillsN"></span></div>
+      <div id="skills"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><span>Acuerdos activos</span><span class="tag">AGENTS.md</span></div>
+      <div class="agree">Fair play: el coach no ayuda en partidas en vivo.</div>
+      <div class="agree">Repertorio, estilo y plan los decides tú; el coach propone con evidencia.</div>
+      <div id="decisions"></div>
+    </div>
+    <div class="card" id="nextCard">
+      <div class="card-h"><span>Siguiente paso</span></div>
+      <div id="next" class="muted"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><span>Mejora continua</span></div>
+      <p class="muted small">Marca qué te sirvió o qué corregir debajo de cada respuesta. El feedback queda local en <code>estado/feedback.md</code>; los cambios permanentes de reglas se acuerdan contigo.</p>
+    </div>
+  </aside>
+</div>
+
+<!-- ───── Onboarding / configuración ───── -->
+<div id="setup" class="setup hidden">
+  <div class="setup-card">
+    <div class="setup-head"><div class="logo">♞</div><div><h2 id="setupTitle">Bienvenido a Chess Coach</h2>
+      <p class="muted">Tu entrenador personal de ajedrez. Configúralo en 1 minuto; todo queda en tu computador.</p></div></div>
+
+    <div class="step"><div class="step-n">1</div><div class="step-body">
+      <h4>Tus cuentas <span class="muted small">(al menos una)</span></h4>
+      <div class="grid2">
+        <label>Usuario Chess.com<input id="sChesscom" placeholder="ej. Vaks_12" autocomplete="off"></label>
+        <label>Usuario Lichess<input id="sLichess" placeholder="opcional" autocomplete="off"></label>
+      </div>
+      <label>Email de contacto <span class="muted small">(opcional; Chess.com lo agradece en su API)</span><input id="sEmail" placeholder="tu@email.com"></label>
+    </div></div>
+
+    <div class="step"><div class="step-n">2</div><div class="step-body">
+      <h4>Estilo de tu coach</h4>
+      <div class="styles" id="sStyles"></div>
+    </div></div>
+
+    <div class="step"><div class="step-n">3</div><div class="step-body">
+      <h4>Tu repertorio <span class="muted small">(opcional, sepáralo con comas)</span></h4>
+      <div class="grid2" id="sRep"></div>
+    </div></div>
+
+    <div class="step"><div class="step-n">4</div><div class="step-body">
+      <h4>Explorador de aperturas de Lichess <span class="muted small">(opcional, gratis)</span></h4>
+      <p class="muted small">Le da al modo jugada a jugada las estadísticas de lo que juega tu nivel. Crea un token sin permisos en
+        <a href="https://lichess.org/account/oauth/token/create" target="_blank" rel="noopener">lichess.org/account/oauth/token/create</a> y pégalo.</p>
+      <input id="sToken" type="password" placeholder="lip_… (déjalo vacío para no cambiarlo)" autocomplete="off">
+    </div></div>
+
+    <div class="step"><div class="step-n">5</div><div class="step-body">
+      <h4>Claude Code <span class="muted small">(para el chat con el coach)</span></h4>
+      <div id="sClaude" class="small"></div>
+      <p class="muted small">💸 El chat usa tu cuenta de Claude (suscripción Pro/Max, o tokens si usas API/Vertex). El tablero jugada a jugada es gratis: no usa Claude.</p>
+    </div></div>
+
+    <div class="setup-err" id="setupErr"></div>
+    <div class="setup-actions">
+      <button class="ghost" id="btnSetupCancel">Cancelar</button>
+      <button class="primary" id="btnSetupSave">Guardar y empezar</button>
+    </div>
+    <div class="setup-progress hidden" id="setupProgress"><div class="spinner"></div><span id="setupProgressText">Bajando tus partidas…</span></div>
+  </div>
+</div>
+
+<dialog id="dlg"><form method="dialog" id="dlgForm"></form></dialog>
+<script src="/app.js"></script>
+</body>
+</html>
